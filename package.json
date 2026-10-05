@@ -1,0 +1,15 @@
+{
+  "name": "stablematch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Consensus-qualified deterministic stable matching primitive for GenLayer Studionet 61999.",
+  "devDependencies": {
+    "genlayer": "0.39.1"
+  },
+  "scripts": {
+    "genlayer": "npx --no-install genlayer",
+    "preflight": "python scripts/preflight.py",
+    "test:unit": "python -m pytest tests/unit -q",
+    "test:direct": "python -m pytest tests/direct -q"
+  }
+}

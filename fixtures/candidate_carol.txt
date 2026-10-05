@@ -1,0 +1,2 @@
+StableMatch public test fixture: Carol Example.
+Carol is a Python engineer with production security-review experience and machine-learning systems experience. She has led security reviews of public Python applications and has hands-on ML systems evaluation experience. This fixture is public demonstration data only.

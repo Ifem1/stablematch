@@ -1,0 +1,220 @@
+STABLEMATCH — CODEX MASTER HANDOFF
+
+I have already unzipped the StableMatch package and opened the extracted `stablematch` folder in Codex.
+
+DO NOT clone another copy.
+DO NOT create a replacement working directory.
+DO NOT create the GitHub repository for me.
+DO NOT push this work to `ometere123` or `lolaaa00`.
+
+The final GitHub destination will be:
+
+    Ifem1/stablematch
+
+I will create that repository separately. Only after `Ifem1/stablematch` exists, set THIS EXACT EXTRACTED FOLDER'S Git origin to that repository and nowhere else.
+
+Read this file first and treat it as the master specification. Then read, before modifying anything:
+
+- README.md
+- SUBMISSION.md
+- BUILD_STATUS.md
+- NETWORK_LOCK.json
+- docs/ARCHITECTURE.md
+- docs/SECURITY_MODEL.md
+- docs/LIVE_TEST_PLAN.md
+- docs/DEPLOYMENT.md
+- contracts/stablematch.py
+- reference/stablematch_model.py
+- tests/unit/test_stablematch_model.py
+- tests/direct/test_stablematch.py
+- scripts/preflight.py
+
+GOAL
+
+Finish StableMatch as a reviewer-grade standalone GenLayer Intelligent Contract primitive. Do not turn it into a full app.
+
+StableMatch must preserve this central architecture:
+
+1. GenLayer consensus determines only semantic eligibility edges from frozen public evidence against frozen natural-language mandatory requirements.
+2. Candidate and opportunity preference rankings are explicit participant inputs and freeze before qualification.
+3. The LLM must NEVER rank candidates, choose a winner, choose capacity, invent preferences, or run the assignment.
+4. Final allocation must be deterministic many-to-one candidate-proposing Gale-Shapley.
+5. Final matching must have zero eligible mutually acceptable blocking pairs under the exact frozen preferences and capacities.
+6. A downstream contract must be able to pin the exact matching hash.
+
+NETWORK — NON-NEGOTIABLE
+
+STUDIONET 61999 ONLY.
+
+Canonical RPC:
+    https://studio.genlayer.com/api
+
+Explorer:
+    https://explorer-studio.genlayer.com
+
+Repository-local CLI:
+    genlayer@0.39.1
+
+Use the repository-local CLI through:
+    npm run genlayer -- ...
+
+Before EVERY signing or deployment stage, run the local CLI network-info/config command and independently verify chain ID 61999 and the canonical Studio RPC.
+
+DO NOT USE 61997.
+DO NOT USE STUDIO-DEV.
+DO NOT install or use the v0.40 / Consensus-v0.6 release-candidate toolchain for this repository.
+DO NOT silently relabel a 61997 deployment as Studionet.
+
+If any dependency, test helper, copied script, documentation line, cached config, environment variable, or generated command points to Studio-dev/61997, remove or fix it before proceeding.
+
+NO FRONTEND
+
+Do not create Next.js, React, Vite, HTML, wallet UI, browser app, or hosted product interface.
+Do not add a backend authority, API server, database, Docker dependency, Privy, WorkOS, WalletConnect, or any other application layer.
+
+This is intentionally a standalone reusable contract submission.
+
+FIRST TASKS
+
+1. Run and record:
+   - git status
+   - python --version
+   - node --version
+   - npm --version
+   - python scripts/preflight.py
+   - python -m compileall contracts reference tests scripts examples
+   - python -m pytest tests/unit -v
+
+2. Install repository-local tooling without changing the required stable versions unless a VERIFIED stable-Studionet incompatibility forces a change:
+   - npm install
+   - verify local genlayer is exactly 0.39.1
+   - install Python requirements in an isolated environment
+
+3. Run:
+   - python -m pytest tests/direct -v
+   - genvm-lint check contracts/stablematch.py
+
+4. Fix every real contract/runtime/API issue found. Do not weaken tests to make them green.
+
+5. Audit the entire contract adversarially. At minimum add/verify tests for:
+   - cross-market preference injection;
+   - duplicate preferences;
+   - duplicate sources;
+   - post-seal mutation attempts;
+   - evidence-source SSRF/private host patterns;
+   - prompt-injection text in requirements/profile/evidence;
+   - candidate profile cannot substitute for evidence;
+   - leader ELIGIBLE / validator NOT_ESTABLISHED mismatch;
+   - leader forged excerpt absent from validator corpus;
+   - leader empty evidence on ELIGIBLE;
+   - validator evidence-bundle FAIL;
+   - source unavailable;
+   - ambiguous qualification retry;
+   - terminal qualification cannot be overwritten;
+   - unresolved mutually listed edge blocks matching;
+   - stale qualification deadline blocks matching;
+   - ineligible edges are skipped rather than treated as eligible;
+   - capacity 1 displacement;
+   - capacity >1 replacement of the worst held candidate;
+   - unmatched candidates;
+   - mutually unlisted pair never participates;
+   - candidate-optimal reference cases;
+   - zero blocking-pair invariant;
+   - deliberate mutated/bad matching is detected by the reference verifier;
+   - definition hash changes for preference/requirement/capacity/source changes;
+   - matching hash changes for a materially different assignment;
+   - wrong matching hash makes is_matched false;
+   - correct matching hash makes is_matched true.
+
+6. Compare `contracts/stablematch.py` against `reference/stablematch_model.py` and prove their deterministic matching behaviour agrees on a broad generated set of bounded markets. Add property/fuzz testing if the toolchain supports it reliably.
+
+7. Keep sizes bounded and justify every bound. Do not generalise into an unbounded matching engine.
+
+GITHUB
+
+When I confirm that `Ifem1/stablematch` exists:
+
+- initialise Git in THIS folder if required;
+- configure origin ONLY as the Ifem1 repository;
+- verify `git remote -v` before the first push;
+- create clean commits for meaningful checkpoints;
+- push main/checkpoints to Ifem1/stablematch only.
+
+Never push StableMatch to ometere123.
+Never push StableMatch to lolaaa00.
+Never create a substitute repository.
+
+LIVE 61999 PROOF
+
+After all local gates are green, execute the exact lifecycle in `docs/LIVE_TEST_PLAN.md` on Studionet 61999.
+
+Use commit-pinned raw GitHub fixture URLs, not mutable `main` URLs, for the canonical live evidence.
+
+The flagship proof must show the deterministic displacement market:
+
+- three candidates: Alice, Bob, Carol;
+- Security and ML opportunities, capacity 1 each;
+- all candidates prefer Security > ML;
+- Security prefers Carol > Alice > Bob;
+- ML prefers Bob > Alice > Carol;
+- all six mutually listed eligibility edges qualify ELIGIBLE from public evidence;
+- final matching is Carol -> Security, Bob -> ML, Alice unmatched;
+- blocking_pair_count == 0.
+
+Also produce a fail-closed market where an unresolved/ambiguous mutually listed edge prevents compute_matching.
+
+Do not fabricate a live proof if a remote model, network, funding, or runtime issue prevents completion. Report the blocker exactly and leave the repo honest.
+
+DEPLOYMENT EVIDENCE
+
+After the canonical deployment, replace the placeholder in `docs/DEPLOYMENT.md` with:
+
+- exact final repository HEAD;
+- exact contract Git blob;
+- SHA-256 of LF-normalised source;
+- deployed source hash / source identity from StudioNet;
+- deployer address;
+- contract address;
+- full deployment transaction hash;
+- full transaction hashes for every flagship lifecycle step;
+- definition hash;
+- all six qualification receipt statuses/hashes;
+- matching hash;
+- exact final assignments;
+- blocking-pair count;
+- correct-hash and wrong-hash composition readbacks;
+- exact Direct Mode test count;
+- exact unit/property test count;
+- exact GenVM lint result;
+- exact preflight result.
+
+REVIEWER QUALITY BAR
+
+Do not optimise for test-count inflation.
+
+A reviewer should be able to see immediately:
+
+    semantic evidence -> consensus eligibility graph -> deterministic Gale-Shapley -> mathematically stable assignment
+
+The important claim is NOT that AI finds a good match.
+
+The important claim is:
+
+    AI cannot choose the match.
+
+GenLayer only decides whether a pair is eligible. Stable matching is determined by frozen two-sided preferences and capacities, with a deterministic blocking-pair invariant.
+
+Before declaring the repository finished, perform a hostile reviewer pass against:
+
+- GenLayer fit;
+- consensus soundness;
+- state-machine correctness;
+- evidence grounding;
+- deterministic algorithm correctness;
+- reproducibility;
+- network identity;
+- deployed-source identity;
+- documentation honesty;
+- reusable consumer interface.
+
+Do not stop at "tests pass". Finish the repository, live evidence, and reviewer-facing proof package.

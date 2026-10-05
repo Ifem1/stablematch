@@ -1,0 +1,40 @@
+StableMatch package verification
+Run in the exact extracted repository on 2026-10-05.
+
+Python environment:
+- Python 3.12.10 in isolated .venv
+- genlayer-test 0.29.2 (tag v0.29.2 resolved to commit 5b78e263216c1a396b56e3ca1b621c9ba2561ac6)
+- genvm-linter 0.11.0
+- Direct Mode GenVM artifact v0.2.16 (official non-prerelease release)
+
+Deterministic unit/property suite:
+12 passed
+
+Direct Mode suite:
+32 passed
+
+Additional generated matching comparisons:
+- 250 bounded markets compare the contract's actual deterministic helper with reference/stablematch_model.py.
+- 500 bounded markets compare the reference matcher with an independent proposal-loop transcription.
+
+Python compileall:
+PASS: contracts reference tests scripts examples
+
+Repository preflight:
+PASS: StableMatch preflight
+contract_sha256=51a9036af0533599c98aebfeb54bc0271a8c3dcecbb33198d3cead2a80d3f073
+network=studionet chain_id=61999 rpc=https://studio.genlayer.com/api
+
+GenVM lint and semantic validation:
+PASS: 3 lint checks; StableMatch validation passed with 21 methods (9 views, 12 writes).
+The stable SDK was prepared by scripts/prepare_stable_sdk.ps1 using GenVM v0.2.16 and GENVMROOT inside ignored .tooling.
+
+Repository-local CLI:
+genlayer@0.39.1
+
+Last observed network-info response:
+alias=studionet
+chain_id=61999
+rpc=https://studio.genlayer.com/api
+
+No signing, deployment, transaction, contract address, deployed-source identity, or live lifecycle evidence is claimed. Repeat network-info verification immediately before every future signing/deployment stage.

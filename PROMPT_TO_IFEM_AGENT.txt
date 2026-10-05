@@ -1,0 +1,36 @@
+I have already unzipped the StableMatch package and opened the extracted `stablematch` folder in Codex. Do not clone another copy, do not create a replacement working directory, and do not create the GitHub repository for me.
+
+Read `STABLEMATCH_CODEX_MASTER_HANDOFF.txt` first and treat it as the master specification. Then read every file it names before changing anything.
+
+The final GitHub destination will be:
+
+Ifem1/stablematch
+
+I will create that repository separately. Once it exists, set THIS EXACT EXTRACTED FOLDER'S Git origin to that repository only. Never push StableMatch to `ometere123` or `lolaaa00` and never create a substitute repository.
+
+Finish the entire repository, not just the contract. Audit and harden StableMatch, run the full deterministic/unit suite, install the pinned stable GenLayer tooling, run all adversarial Direct Mode tests, run GenVM lint, preflight and compile checks, and add any missing tests a hostile reviewer could use to break the primitive. Do not weaken tests to make them green.
+
+STUDIONET 61999 ONLY.
+RPC: https://studio.genlayer.com/api
+Explorer: https://explorer-studio.genlayer.com
+Repository-local CLI: genlayer@0.39.1
+
+Verify chain ID 61999 before every signing and deployment stage. Do not use 61997, Studio-dev, Studio-next, v0.40 RC tooling, or the Consensus-v0.6 preview for this repository. Do not mix stable and release-candidate tooling.
+
+NO FRONTEND. NO BACKEND AUTHORITY. NO DOCKER DEPENDENCY.
+
+Do not add Next.js, React, Vite, HTML UI, wallet UI, Privy, WorkOS, WalletConnect, a hosted API server, or a database. StableMatch is intentionally a standalone reusable Intelligent Contract submission.
+
+Preserve the core mechanism:
+
+semantic public evidence -> independent GenLayer eligibility consensus -> frozen eligible graph -> deterministic many-to-one candidate-proposing Gale-Shapley -> zero-blocking-pair invariant -> matching hash
+
+The LLM must never rank candidates, choose winners, invent preferences, choose capacities, break ties, or calculate the assignment.
+
+Use `reference/stablematch_model.py` as the deterministic oracle for the on-chain matching algorithm and add property/fuzz comparisons between the two implementations where the stable toolchain permits it.
+
+After all local gates are green and after I have created `Ifem1/stablematch`, push meaningful checkpoints there. Then deploy only to Studionet 61999 and execute the entire live lifecycle in `docs/LIVE_TEST_PLAN.md` using commit-pinned raw GitHub fixture URLs. Capture exact full transaction hashes, contract/source identity, definition hash, qualification receipts, final matching hash, assignments, and `blocking_pair_count == 0` in `docs/DEPLOYMENT.md`.
+
+Do not fabricate evidence if any network, model, wallet, funding, or runtime dependency blocks the live lifecycle. Fix what is fixable; report exact blockers honestly.
+
+Do not stop at "tests pass". Perform a hostile reviewer audit of GenLayer fit, consensus soundness, state-machine correctness, evidence grounding, deterministic algorithm correctness, matching stability, network identity, deployed-source identity, documentation honesty, and composability before declaring it finished.

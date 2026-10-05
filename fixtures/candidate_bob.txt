@@ -1,0 +1,2 @@
+StableMatch public test fixture: Bob Example.
+Bob is a Python engineer with production security-review experience and machine-learning systems experience. He has reviewed public Python services for security issues and has built ML evaluation pipelines. This fixture is public demonstration data only.

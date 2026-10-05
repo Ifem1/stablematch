@@ -1,0 +1,13 @@
+{
+  "network": "studionet",
+  "chain_id": 61999,
+  "rpc": "https://studio.genlayer.com/api",
+  "explorer": "https://explorer-studio.genlayer.com",
+  "currency": "GEN",
+  "cli": "genlayer@0.39.1",
+  "direct_mode_genvm": "v0.2.16",
+  "genvm_linter": "genvm-linter==0.11.0",
+  "forbidden_chain_ids": [61997],
+  "forbidden_rpc_fragments": ["studio-dev.genlayer.com", "studio-next.genlayer.com"],
+  "policy": "StableMatch is a stable Studionet 61999 submission. Never deploy, sign, test live evidence, or generate submission proof on Studio-dev 61997."
+}
