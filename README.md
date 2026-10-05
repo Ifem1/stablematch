@@ -82,11 +82,11 @@ StableMatch is deliberately contract-only. There is no Next.js application, back
 - `reference/stablematch_model.py` — pure deterministic reference implementation
 - `tests/unit/` — algorithmic invariant tests
 - `tests/direct/` — prepared Direct Mode scenarios
-- `fixtures/` — public demonstration evidence to publish after repo creation
+- `fixtures/` — public demonstration evidence used by the live Studionet proof
 - `docs/ARCHITECTURE.md` — protocol architecture
 - `docs/SECURITY_MODEL.md` — threat model
 - `docs/LIVE_TEST_PLAN.md` — exact 61999 live proof plan
-- `STABLEMATCH_CODEX_MASTER_HANDOFF.txt` — final handoff instructions
+- `docs/DEPLOYMENT.md` — canonical deployment and live lifecycle evidence
 
 ## Local deterministic checks
 
@@ -111,4 +111,4 @@ The Direct Mode SDK pin is GenVM `v0.2.16`, the official non-prerelease artifact
 
 ## Submission status
 
-Local gates are recorded in `BUILD_STATUS.md`. The destination repository is `Ifem1/stablematch`; live deployment and lifecycle receipts remain blank until observed on Studionet 61999. See `docs/LIVE_TEST_PLAN.md` for the commit-pinned fixture and transaction sequence.
+StableMatch is deployed on Studionet 61999 at `0xB09Dc2259A3bf7788207421ADB7CB6c297913b6F`. Local verification is recorded in `BUILD_STATUS.md`, and the full deployment, source-identity, lifecycle, qualification, fail-closed, assignment, matching-hash, and zero-blocking-pair evidence is recorded in `docs/DEPLOYMENT.md`.
