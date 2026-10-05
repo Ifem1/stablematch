@@ -30,4 +30,4 @@
 - Assignment uses deterministic candidate-proposing many-to-one Gale-Shapley; the LLM does not rank or assign.
 - The known redirect/DNS-rebinding limitation remains documented as part of the external evidence-renderer trust boundary.
 
-The final deployment evidence and UTF-8 preflight correction are being packaged as a follow-up checkpoint; the contract source itself is unchanged from the deployed commit.
+The deployment evidence and UTF-8 source-hash correction are recorded in `docs/DEPLOYMENT.md`; all live values come from canonical Studionet responses. The contract source is unchanged from the deployed checkpoint.
