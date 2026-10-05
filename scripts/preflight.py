@@ -31,7 +31,6 @@ REQUIRED = [
     "docs/SECURITY_MODEL.md",
     "docs/LIVE_TEST_PLAN.md",
     "docs/DEPLOYMENT.md",
-    "STABLEMATCH_CODEX_MASTER_HANDOFF.txt",
 ]
 
 
