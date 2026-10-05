@@ -47,7 +47,7 @@ manifest_path = ROOT / "MANIFEST.sha256"
 if not manifest_path.exists():
     fail("MANIFEST.sha256 is missing")
 manifest_paths = set()
-for line_no, line in enumerate(manifest_path.read_text().splitlines(), start=1):
+for line_no, line in enumerate(manifest_path.read_text(encoding="utf-8").splitlines(), start=1):
     parts = line.split("  ", 1)
     if len(parts) != 2 or not re.fullmatch(r"[0-9a-f]{64}", parts[0]):
         fail(f"malformed MANIFEST.sha256 line {line_no}")
@@ -73,7 +73,7 @@ if actual_paths != manifest_paths:
     stale = sorted(manifest_paths - actual_paths)
     fail(f"manifest coverage mismatch: missing={missing[:3]} stale={stale[:3]}")
 
-lock = json.loads((ROOT / "NETWORK_LOCK.json").read_text())
+lock = json.loads((ROOT / "NETWORK_LOCK.json").read_text(encoding="utf-8"))
 if lock["chain_id"] != 61999 or lock["rpc"] != "https://studio.genlayer.com/api":
     fail("NETWORK_LOCK does not pin Studionet 61999")
 if lock["cli"] != "genlayer@0.39.1":
@@ -83,23 +83,23 @@ if lock.get("direct_mode_genvm") != "v0.2.16":
 if lock.get("genvm_linter") != "genvm-linter==0.11.0":
     fail("GenVM linter version is not pinned")
 
-package = json.loads((ROOT / "package.json").read_text())
+package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
 if package.get("devDependencies", {}).get("genlayer") != "0.39.1":
     fail("repository-local GenLayer CLI must be exactly 0.39.1")
 if package.get("scripts", {}).get("genlayer") != "npx --no-install genlayer":
     fail("GenLayer CLI script must use the repository-local installation")
-config = (ROOT / "gltest.config.yaml").read_text()
+config = (ROOT / "gltest.config.yaml").read_text(encoding="utf-8")
 if "default: localnet" not in config or "url: https://studio.genlayer.com/api" not in config:
     fail("test config must default to localnet and pin canonical Studionet RPC")
-direct_config = (ROOT / "tests/direct/conftest.py").read_text()
+direct_config = (ROOT / "tests/direct/conftest.py").read_text(encoding="utf-8")
 if 'sdk_version="v0.2.16"' not in direct_config:
     fail("Direct Mode test deployment must explicitly use stable GenVM v0.2.16")
-sdk_setup = (ROOT / "scripts/prepare_stable_sdk.ps1").read_text()
+sdk_setup = (ROOT / "scripts/prepare_stable_sdk.ps1").read_text(encoding="utf-8")
 if "$stableGenVm = 'v0.2.16'" not in sdk_setup:
     fail("SDK setup script must remain pinned to stable GenVM v0.2.16")
 
 all_text = "\n".join(
-    p.read_text(errors="ignore")
+    p.read_text(encoding="utf-8", errors="ignore")
     for p in ROOT.rglob("*")
     if p.is_file()
     and not any(part in GENERATED_DIRS for part in p.relative_to(ROOT).parts)
@@ -113,7 +113,7 @@ for forbidden in ("https://studio-dev.genlayer.com/api", "https://studio-next.ge
     if forbidden in all_text:
         fail(f"forbidden Studio-dev RPC appears in repository: {forbidden}")
 
-contract = (ROOT / "contracts/stablematch.py").read_text()
+contract = (ROOT / "contracts/stablematch.py").read_text(encoding="utf-8")
 if 'py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6' not in contract:
     fail("stable py-genlayer dependency header missing")
 if "run_nondet_unsafe" not in contract:
@@ -125,11 +125,11 @@ if re.search(r"frontend|next\.js|react", contract, re.I):
 
 lockfile = ROOT / "package-lock.json"
 if lockfile.exists():
-    npm_lock = json.loads(lockfile.read_text())
+    npm_lock = json.loads(lockfile.read_text(encoding="utf-8"))
     locked = npm_lock.get("packages", {}).get("node_modules/genlayer", {}).get("version")
     if locked != "0.39.1":
         fail("package-lock.json does not lock genlayer@0.39.1")
-    serialized = lockfile.read_text().lower()
+    serialized = lockfile.read_text(encoding="utf-8").lower()
     if "studio-dev.genlayer.com" in serialized or "studio-next.genlayer.com" in serialized:
         fail("forbidden RPC appears in package-lock.json")
 

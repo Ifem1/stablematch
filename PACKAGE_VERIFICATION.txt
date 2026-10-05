@@ -22,7 +22,7 @@ PASS: contracts reference tests scripts examples
 
 Repository preflight:
 PASS: StableMatch preflight
-contract_sha256=51a9036af0533599c98aebfeb54bc0271a8c3dcecbb33198d3cead2a80d3f073
+contract_sha256=c391f8384ae04101f48af1c9d23b2dcea932dc85788c585e2c15acb27a7490d2
 network=studionet chain_id=61999 rpc=https://studio.genlayer.com/api
 
 GenVM lint and semantic validation:
@@ -37,4 +37,4 @@ alias=studionet
 chain_id=61999
 rpc=https://studio.genlayer.com/api
 
-No signing, deployment, transaction, contract address, deployed-source identity, or live lifecycle evidence is claimed. Repeat network-info verification immediately before every future signing/deployment stage.
+Studionet 61999 deployment and lifecycle evidence is recorded in docs/DEPLOYMENT.md. The deployed code was retrieved from the canonical RPC and matched the committed contract source byte-for-byte. Before any future signing/deployment, repeat repository-local network info and direct eth_chainId verification.
