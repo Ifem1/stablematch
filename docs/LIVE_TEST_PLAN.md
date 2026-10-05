@@ -19,13 +19,13 @@ Before every signing/deployment stage, independently verify the active RPC and c
 
 ## Fixture preparation
 
-After `Ifem1/stablematch` exists and the package is pushed, use commit-pinned raw GitHub URLs for:
+The canonical fixture source is pinned to repository commit `71c7d5803627dfa3083b4a22ab9db7f888427982`:
 
-- `fixtures/candidate_alice.txt`
-- `fixtures/candidate_bob.txt`
-- `fixtures/candidate_carol.txt`
+- Alice: `https://raw.githubusercontent.com/Ifem1/stablematch/71c7d5803627dfa3083b4a22ab9db7f888427982/fixtures/candidate_alice.txt`
+- Bob: `https://raw.githubusercontent.com/Ifem1/stablematch/71c7d5803627dfa3083b4a22ab9db7f888427982/fixtures/candidate_bob.txt`
+- Carol: `https://raw.githubusercontent.com/Ifem1/stablematch/71c7d5803627dfa3083b4a22ab9db7f888427982/fixtures/candidate_carol.txt`
 
-Do not use `main` for the canonical live proof. Pin the exact commit SHA so qualification evidence cannot change underneath the receipt.
+Do not use `main` for the canonical live proof. These raw URLs were fetched successfully (HTTP 200); the commit SHA pins the public evidence contents.
 
 ## Flagship market
 

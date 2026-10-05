@@ -4,7 +4,7 @@
 
 No canonical deployment or signing transaction has been performed. No deployer wallet, contract address, transaction hash, definition receipt, qualification receipt, matching hash, or chain source identity is claimed.
 
-The extracted folder is connected only to `https://github.com/Ifem1/stablematch.git`. The live deployment must wait until the reviewed local checkpoint is pushed and the commit-pinned public fixture URLs are available.
+The extracted folder is connected only to `https://github.com/Ifem1/stablematch.git`. The reviewed package is pushed to `main` at commit `71c7d5803627dfa3083b4a22ab9db7f888427982`. The contract Git blob is `c40ed5715510267bd4556ea13b60761b2ab5eae6`; its LF-normalized SHA-256 is `51a9036af0533599c98aebfeb54bc0271a8c3dcecbb33198d3cead2a80d3f073`. The three fixture URLs are commit-pinned and publicly reachable. No canonical deployment/signing evidence is available yet.
 
 ## Local gates
 
