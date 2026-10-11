@@ -113,4 +113,6 @@ The Direct Mode SDK pin is GenVM `v0.2.16`, the official non-prerelease artifact
 
 ## Submission status
 
-StableMatch is deployed on Studionet 61999 at `0xB09Dc2259A3bf7788207421ADB7CB6c297913b6F`; that deployment uses the pre-admission revision. Local gates are recorded in `BUILD_STATUS.md`, and the historical deployment evidence is in `docs/DEPLOYMENT.md`. The admission correction must be deployed before claiming the updated lifecycle is live. See `docs/LIVE_TEST_PLAN.md` for the commit-pinned fixture and transaction sequence.
+The admission-control correction is deployed on Studionet 61999 at `0x6a670925B2d44909C2E6C05771C53758f895A066`. The market owner registers directly and can admit up to 16 registrar addresses per role while a market is draft; an unrelated address cannot register a candidate or opportunity without the relevant admission. The corrected deployment was exercised through the admission, eligibility, fail-closed and matching flows. Its source identity, full transaction hashes, receipts, final assignments and invariant readbacks are recorded in `docs/DEPLOYMENT.md`.
+
+The corrected contract was deployed from source commit `c13f48bbec4df56356f1089af5e0b1a4b6350789`, deployment transaction `0x08c231742920a337d91a8ab7dddc7515ab06f978998aeccb1274e5f63f438a8c`. It is byte-for-byte equal to the local contract source. Current verification results are in `BUILD_STATUS.md` and `PACKAGE_VERIFICATION.txt`.

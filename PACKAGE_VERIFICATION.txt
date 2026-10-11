@@ -1,40 +1,38 @@
 StableMatch package verification
-Run in the exact extracted repository on 2026-10-05.
+Verified in the exact extracted repository on 2026-10-11.
 
-Python environment:
-- Python 3.12.10 in isolated .venv
-- genlayer-test 0.29.2 (tag v0.29.2 resolved to commit 5b78e263216c1a396b56e3ca1b621c9ba2561ac6)
-- genvm-linter 0.11.0
-- Direct Mode GenVM artifact v0.2.16 (official non-prerelease release)
+Pinned tooling:
+- Repository-local genlayer CLI 0.39.1.
+- genlayer-test v0.29.2 and genvm-linter 0.11.0.
+- Direct Mode GenVM artifact v0.2.16 (official non-prerelease release).
 
 Deterministic unit/property suite:
-12 passed
+12 passed.
 
 Direct Mode suite:
-32 passed
+34 passed.
 
 Additional generated matching comparisons:
 - 250 bounded markets compare the contract's actual deterministic helper with reference/stablematch_model.py.
 - 500 bounded markets compare the reference matcher with an independent proposal-loop transcription.
 
 Python compileall:
-PASS: contracts reference tests scripts examples
-
-Repository preflight:
-PASS: StableMatch preflight
-contract_sha256=c391f8384ae04101f48af1c9d23b2dcea932dc85788c585e2c15acb27a7490d2
-network=studionet chain_id=61999 rpc=https://studio.genlayer.com/api
+PASS: contracts reference tests scripts examples.
 
 GenVM lint and semantic validation:
-PASS: 3 lint checks; StableMatch validation passed with 21 methods (9 views, 12 writes).
+PASS: 3 lint checks; StableMatch validation passed with 23 methods (9 views, 14 writes).
 The stable SDK was prepared by scripts/prepare_stable_sdk.ps1 using GenVM v0.2.16 and GENVMROOT inside ignored .tooling.
 
-Repository-local CLI:
-genlayer@0.39.1
+Repository preflight:
+PASS: StableMatch preflight.
+contract_sha256=1ff3a1680d4aa0a9eaaf01a7c15083f179b160ee3380bd2408f9bb4c33c973cb
+network=studionet chain_id=61999 rpc=https://studio.genlayer.com/api
 
-Last observed network-info response:
-alias=studionet
-chain_id=61999
-rpc=https://studio.genlayer.com/api
+Corrected Studionet deployment:
+contract=0x6a670925B2d44909C2E6C05771C53758f895A066
+deployment_transaction=0x08c231742920a337d91a8ab7dddc7515ab06f978998aeccb1274e5f63f438a8c
+source_commit=c13f48bbec4df56356f1089af5e0b1a4b6350789
+raw_deployed_source_sha256=3e92dae9a7e7f1840ab6e11ddfd7239a461cafd934e4af8fe057f9630779e1d1
+The source fetched from the canonical Studionet RPC matched the local contract bytes exactly.
 
-Studionet 61999 deployment and lifecycle evidence is recorded in docs/DEPLOYMENT.md. The deployed code was retrieved from the canonical RPC and matched the committed contract source byte-for-byte. Before any future signing/deployment, repeat repository-local network info and direct eth_chainId verification.
+The admission, qualification, matching, fail-closed, source-identity and transaction evidence is recorded in docs/DEPLOYMENT.md. Before any future signing/deployment, verify repository-local network info and independently check eth_chainId at the canonical RPC.
