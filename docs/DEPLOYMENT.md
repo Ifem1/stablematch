@@ -1,5 +1,11 @@
 # StableMatch Studionet deployment evidence
 
+## Admission-control correction (2026-10-11)
+
+The review fix is committed and pushed to `Ifem1/stablematch` at `832850b3c81c6469592fc627cc6bcd59ea5a1849`. Its contract blob is `3de0e75b5fd61b820018b70e94ded0c7551eefcc`, and the corrected contract SHA-256 reported by repository preflight is `1ff3a1680d4aa0a9eaaf01a7c15083f179b160ee3380bd2408f9bb4c33c973cb`. Local verification passed: 12 unit/property tests, 34 Direct Mode tests, 3 GenVM lint checks, SDK validation for 23 methods, Python compileall, and repository preflight.
+
+**This correction is not yet deployed.** The existing Studionet deployment below is the earlier source and does not include owner-controlled registration admission. No replacement deployment transaction or address is claimed here. On 2026-10-11 the CLI confirmed chain 61999 and the canonical RPC, but the funded `stablematch-throwaway` account was locked; the Windows keychain was unavailable and the encrypted-keystore password was not available in this execution. The deployment attempt stopped at the password prompt before signing or broadcasting a transaction. The existing deployment evidence below remains historical evidence for the pre-correction source.
+
 ## Deployment identity
 
 - Network: GenLayer Studionet, chain ID **61999**.
