@@ -73,6 +73,43 @@ def test_market_seal_hashes_full_two_sided_definition(direct_vm, direct_deploy):
     assert state["opportunity_ids"] == [sec, ml]
 
 
+def test_unrelated_address_cannot_register_and_owner_controls_admission(direct_vm, direct_deploy):
+    direct_vm.warp(BASE_ISO)
+    c = direct_deploy(CONTRACT)
+    market = c.create_market("M", "Admission controlled market", 3600)
+    contract_module = sys.modules[type(c._instance).__module__]
+    outsider = contract_module.Address("0x" + "b" * 40)
+    with direct_vm.prank(outsider):
+        with direct_vm.expect_revert("candidate registration is not admitted"):
+            c.register_candidate(market, "Intruder", "Profile")
+        with direct_vm.expect_revert("opportunity registration is not admitted"):
+            c.register_opportunity(market, "Intruder role", "A requirement.", 1)
+        with direct_vm.expect_revert("only market owner may admit registrants"):
+            c.admit_candidate_registrant(market, outsider)
+
+    c.admit_candidate_registrant(market, outsider)
+    c.admit_opportunity_registrant(market, outsider)
+    with direct_vm.prank(outsider):
+        candidate_id = c.register_candidate(market, "Admitted candidate", "Profile")
+        opportunity_id = c.register_opportunity(market, "Admitted opportunity", "A requirement.", 1)
+    outsider_hex = outsider.as_hex
+    assert c.get_candidate(candidate_id)["owner"].lower() == outsider_hex.lower()
+    assert c.get_opportunity(opportunity_id)["owner"].lower() == outsider_hex.lower()
+    state = c.get_market(market)
+    assert outsider_hex.lower() in [address.lower() for address in state["admitted_candidate_registrants"]]
+    assert outsider_hex.lower() in [address.lower() for address in state["admitted_opportunity_registrants"]]
+
+
+def test_market_owner_may_register_without_admission(direct_vm, direct_deploy):
+    direct_vm.warp(BASE_ISO)
+    c = direct_deploy(CONTRACT)
+    market = c.create_market("M", "Owner registration", 3600)
+    candidate_id = c.register_candidate(market, "Owner candidate", "Profile")
+    opportunity_id = c.register_opportunity(market, "Owner opportunity", "A requirement.", 1)
+    assert c.get_candidate(candidate_id)["owner"] == c.get_market(market)["owner"]
+    assert c.get_opportunity(opportunity_id)["owner"] == c.get_market(market)["owner"]
+
+
 def test_eligible_edge_requires_grounded_evidence_and_validator_agreement(direct_vm, direct_deploy):
     c, market, candidates, sec, _ = setup_market(direct_vm, direct_deploy)
     mock_eligible(direct_vm)

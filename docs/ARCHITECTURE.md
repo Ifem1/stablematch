@@ -16,6 +16,8 @@ Each opportunity freezes:
 - capacity,
 - an ordered candidate preference list.
 
+Only the market owner can register records by default. The owner may explicitly admit up to 16 addresses per role (candidate registrar and opportunity registrar) while the market is a draft. An admitted participant still owns and seals their own record; an unrelated address cannot add an unsealed record that blocks market sealing. Admissions close automatically when the market seals.
+
 The market definition is hashed when sealed. No preference, requirement, source URL, profile, capacity, or membership may change afterwards.
 
 ## 2. GenLayer creates only eligibility edges

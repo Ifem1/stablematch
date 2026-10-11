@@ -24,6 +24,10 @@ The candidate profile is explicitly descriptive only. `ELIGIBLE` requires public
 
 Candidates and opportunities seal themselves before the market seals. The market definition hash commits to both sides, requirements, capacities, evidence URLs and preference order. No edit path remains after sealing.
 
+### Draft-market registration griefing
+
+Candidate and opportunity registration is closed to unrelated addresses by default. The market owner may admit addresses separately for candidate and opportunity registration, with a bounded maximum of 16 admitted addresses per role. Admissions are only possible during the draft phase and only the market owner can grant them. Admitted participants retain control of their own preference inputs and must seal their records; an uninvited address cannot add a record and hold market sealing open.
+
 ### Missing edge changes the result
 
 Every pair that is mutually listed by both sides must resolve to a terminal `ELIGIBLE` or `NOT_ESTABLISHED` receipt before matching. `AMBIGUOUS`, `UNAVAILABLE`, and missing pairs fail closed.

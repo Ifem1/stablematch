@@ -1,6 +1,6 @@
 # StableMatch build and live status
 
-## Local verification (2026-10-05)
+## Local verification (2026-10-11, admission correction)
 
 - Exact extracted folder is a Git repository on `main`; origin is `https://github.com/Ifem1/stablematch.git`.
 - Repository-local CLI is `genlayer@0.39.1`.
@@ -11,6 +11,8 @@
 - Repository preflight: **passed**, UTF-8 LF-normalized contract SHA-256 `c391f8384ae04101f48af1c9d23b2dcea932dc85788c585e2c15acb27a7490d2`.
 - GenVM lint: **3 checks passed**; SDK semantic validation passed for 21 methods (9 views, 12 writes).
 - Generated comparisons: 250 contract-helper/reference markets plus 500 independent reference/oracle markets.
+- Draft-market admission correction: the market owner registers directly; other addresses require role-specific owner admission before they can register a candidate or opportunity. Direct Mode confirms unadmitted registration fails and admitted records retain their participant owner.
+- Updated local gates: unit suite **12 passed**; Direct Mode suite **34 passed**; compileall **passed**; stable SDK validation **23 methods** (9 views, 14 writes); GenVM lint **3 checks passed**.
 
 ## Studionet 61999 live proof
 
@@ -30,4 +32,4 @@
 - Assignment uses deterministic candidate-proposing many-to-one Gale-Shapley; the LLM does not rank or assign.
 - The known redirect/DNS-rebinding limitation remains documented as part of the external evidence-renderer trust boundary.
 
-The deployment evidence and UTF-8 source-hash correction are recorded in `docs/DEPLOYMENT.md`; all live values come from canonical Studionet responses. The contract source is unchanged from the deployed checkpoint.
+The original deployment evidence and UTF-8 source-hash correction are recorded in `docs/DEPLOYMENT.md`; those values identify the pre-admission source only. The admission-corrected source is not yet claimed as deployed; its new address, source identity, and lifecycle evidence must be appended after canonical Studionet verification.

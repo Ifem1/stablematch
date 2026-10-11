@@ -45,6 +45,8 @@ Opportunities freeze mandatory requirements, capacity and ordered candidate pref
 
 Market sealing commits the complete two-sided definition to `definition_hash`.
 
+The market owner registers directly by default. Other addresses need explicit role-specific admission from the market owner before they may register a candidate or opportunity. This prevents unrelated addresses from injecting unsealed records into a draft market while retaining participant-owned preferences.
+
 ### Qualification
 
 Only pairs listed by both sides may be qualified. Terminal outcomes are:
@@ -111,4 +113,4 @@ The Direct Mode SDK pin is GenVM `v0.2.16`, the official non-prerelease artifact
 
 ## Submission status
 
-StableMatch is deployed on Studionet 61999 at `0xB09Dc2259A3bf7788207421ADB7CB6c297913b6F`. Local verification is recorded in `BUILD_STATUS.md`, and the full deployment, source-identity, lifecycle, qualification, fail-closed, assignment, matching-hash, and zero-blocking-pair evidence is recorded in `docs/DEPLOYMENT.md`.
+StableMatch is deployed on Studionet 61999 at `0xB09Dc2259A3bf7788207421ADB7CB6c297913b6F`; that deployment uses the pre-admission revision. Local gates are recorded in `BUILD_STATUS.md`, and the historical deployment evidence is in `docs/DEPLOYMENT.md`. The admission correction must be deployed before claiming the updated lifecycle is live. See `docs/LIVE_TEST_PLAN.md` for the commit-pinned fixture and transaction sequence.

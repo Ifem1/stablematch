@@ -23,6 +23,7 @@ QUAL_UNAVAILABLE = 4
 
 MAX_CANDIDATES = 16
 MAX_OPPORTUNITIES = 8
+MAX_ADMITTED_REGISTRANTS = 16
 MAX_PREFS = 8
 MAX_CAPACITY = 8
 MAX_SOURCES_PER_CANDIDATE = 4
@@ -70,6 +71,8 @@ class Market:
     qualification_window_seconds: u256
     candidate_ids: DynArray[u256]
     opportunity_ids: DynArray[u256]
+    admitted_candidate_registrants: DynArray[Address]
+    admitted_opportunity_registrants: DynArray[Address]
     definition_hash: str
     matching_hash: str
     proposal_count: u32
@@ -152,6 +155,8 @@ class IStableMatch:
 
     class Write:
         def create_market(self, title: str, description: str, qualification_window_seconds: u256) -> u256: ...
+        def admit_candidate_registrant(self, market_id: u256, registrant: Address) -> None: ...
+        def admit_opportunity_registrant(self, market_id: u256, registrant: Address) -> None: ...
         def register_candidate(self, market_id: u256, label: str, profile: str) -> u256: ...
         def add_candidate_source(self, candidate_id: u256, label: str, url: str) -> u256: ...
         def set_candidate_preferences(self, candidate_id: u256, opportunity_ids: DynArray[u256]) -> None: ...
@@ -345,6 +350,13 @@ def pair_key(candidate_id: int, opportunity_id: int) -> int:
 def _contains(values, target: int) -> bool:
     for value in values:
         if int(value) == int(target):
+            return True
+    return False
+
+
+def _contains_address(values, target: Address) -> bool:
+    for value in values:
+        if value == target:
             return True
     return False
 
@@ -573,6 +585,20 @@ class StableMatch(gl.Contract):
             raise gl.vm.UserError(f"{ERR_EXPECTED}: unknown market")
         return item
 
+    def _admit_registrant(self, market: Market, registrant: Address, candidate_side: bool) -> None:
+        if market.owner != gl.message.sender_address:
+            raise gl.vm.UserError(f"{ERR_EXPECTED}: only market owner may admit registrants")
+        if int(market.status) != MARKET_DRAFT:
+            raise gl.vm.UserError(f"{ERR_EXPECTED}: market is not draft")
+        if registrant == market.owner:
+            raise gl.vm.UserError(f"{ERR_EXPECTED}: market owner is already admitted")
+        admissions = market.admitted_candidate_registrants if candidate_side else market.admitted_opportunity_registrants
+        if _contains_address(admissions, registrant):
+            raise gl.vm.UserError(f"{ERR_EXPECTED}: registrant is already admitted")
+        if len(admissions) >= MAX_ADMITTED_REGISTRANTS:
+            raise gl.vm.UserError(f"{ERR_EXPECTED}: admission limit reached")
+        admissions.append(registrant)
+
     def _candidate(self, candidate_id: u256) -> Candidate:
         item = self.candidates.get(candidate_id)
         if item is None:
@@ -716,10 +742,24 @@ class StableMatch(gl.Contract):
         return market_id
 
     @gl.public.write
+    def admit_candidate_registrant(self, market_id: u256, registrant: Address) -> None:
+        """Allow one address to register candidate records in this draft market."""
+        self._admit_registrant(self._market(market_id), registrant, True)
+
+    @gl.public.write
+    def admit_opportunity_registrant(self, market_id: u256, registrant: Address) -> None:
+        """Allow one address to register opportunity records in this draft market."""
+        self._admit_registrant(self._market(market_id), registrant, False)
+
+    @gl.public.write
     def register_candidate(self, market_id: u256, label: str, profile: str) -> u256:
         market = self._market(market_id)
         if int(market.status) != MARKET_DRAFT:
             raise gl.vm.UserError(f"{ERR_EXPECTED}: market is sealed")
+        if market.owner != gl.message.sender_address and not _contains_address(
+            market.admitted_candidate_registrants, gl.message.sender_address
+        ):
+            raise gl.vm.UserError(f"{ERR_EXPECTED}: candidate registration is not admitted")
         if len(market.candidate_ids) >= MAX_CANDIDATES:
             raise gl.vm.UserError(f"{ERR_EXPECTED}: candidate limit reached")
         label = clean_text(label, MAX_LABEL_LEN + 1)
@@ -802,6 +842,10 @@ class StableMatch(gl.Contract):
         market = self._market(market_id)
         if int(market.status) != MARKET_DRAFT:
             raise gl.vm.UserError(f"{ERR_EXPECTED}: market is sealed")
+        if market.owner != gl.message.sender_address and not _contains_address(
+            market.admitted_opportunity_registrants, gl.message.sender_address
+        ):
+            raise gl.vm.UserError(f"{ERR_EXPECTED}: opportunity registration is not admitted")
         if len(market.opportunity_ids) >= MAX_OPPORTUNITIES:
             raise gl.vm.UserError(f"{ERR_EXPECTED}: opportunity limit reached")
         label = clean_text(label, MAX_LABEL_LEN + 1)
@@ -1059,6 +1103,8 @@ class StableMatch(gl.Contract):
             "matched_at": int(market.matched_at),
             "candidate_ids": [int(x) for x in market.candidate_ids],
             "opportunity_ids": [int(x) for x in market.opportunity_ids],
+            "admitted_candidate_registrants": [str(x) for x in market.admitted_candidate_registrants],
+            "admitted_opportunity_registrants": [str(x) for x in market.admitted_opportunity_registrants],
             "definition_hash": str(market.definition_hash),
             "matching_hash": str(market.matching_hash),
             "proposal_count": int(market.proposal_count),
